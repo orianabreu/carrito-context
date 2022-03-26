@@ -24,6 +24,7 @@ const Products = () => {
           <Product
             key={product.ProductID}
             id={product.ProductID}
+            product={product}
             imgURL={product.PictureURL}
             name={product.Name}
             price={product.Price}
