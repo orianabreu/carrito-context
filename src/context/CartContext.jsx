@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 
 const CartContext = React.createContext();
+console.log(CartContext);
 
 export const useCartContext = () => {
   return useContext(CartContext);
@@ -22,6 +23,7 @@ export default function CartProvider({ children }) {
       };
       setCartItems([...cartItems, cartItem]);
     } else {
+        //si ya tenemos el producto en el carrito, sumamos la cantidad de ese prod q vamos a comprar
       found.count++;
       setCartItems([...cartItems]);
     }
@@ -32,5 +34,9 @@ export default function CartProvider({ children }) {
     addItem,
   };
 
-  return <CartContext.Provider value={store}>{children}</CartContext.Provider>;
+  return (
+        <CartContext.Provider value={store}>
+            {children}
+        </CartContext.Provider>
+);
 }

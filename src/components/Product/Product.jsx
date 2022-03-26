@@ -1,9 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCartContext } from "../../context/CartContext";
 
 const Product = ({ imgURL, name, price, retailtPrice, id, product }) => {
   const { addItem } = useCartContext();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/product-details/${id}`, { state: product });
+  };
 
   return (
     <div className='product-container'>
@@ -16,12 +21,14 @@ const Product = ({ imgURL, name, price, retailtPrice, id, product }) => {
           <span>{retailtPrice}</span>
         </div>
 
-        <Link to={`/product-details/${id}`}>
-          <button className='product-container__btn'>view details</button>
-        </Link>
-        <button 
-        className='product-container__btn' 
-        onClick={() => addItem(product)}
+        {/* <Link to={`/product-details/${id}`}> */}
+        <button onClick={handleClick} className='product-container__btn'>
+          view details
+        </button>
+        {/* </Link> */}
+        <button
+          className='product-container__btn'
+          onClick={() => addItem(product)}
         >
           shop
         </button>

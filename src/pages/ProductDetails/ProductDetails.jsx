@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useCartContext } from '../../context/CartContext';
 
 export default function ProductDetails() {
     const [details, setDetails] = useState({
@@ -10,7 +11,10 @@ export default function ProductDetails() {
         Stock: ""
     })
 
+    const { addItem } = useCartContext();
+
     const { ProductID } = useParams(); // el valor que coge useParams SIEMPRE lo transforma en string
+    const { product } = useParams();
 
     useEffect(() => {
         fetch("/productList.json")
@@ -24,6 +28,7 @@ export default function ProductDetails() {
     <div>
         <img src={PictureURL} alt={Name} />
         <h2>{Name}</h2>
+        <button onClick={() => addItem(product)}>shop</button>
         <p>{Price}</p>
         <p>{Description}</p>
 
