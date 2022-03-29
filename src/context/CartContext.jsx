@@ -20,18 +20,27 @@ export default function CartProvider({ children }) {
       const cartItem = {
         ...item,
         count: 1,
+        price: item.Price
       };
       setCartItems([...cartItems, cartItem]);
     } else {
         //si ya tenemos el producto en el carrito, sumamos la cantidad de ese prod q vamos a comprar
       found.count++;
+      found.price = found.price * found.count;
       setCartItems([...cartItems]);
     }
   };
 
+  const deleteItem = (id) => {
+    setCartItems(cartItems.filter((item, index) => {
+      return index !== id;
+    }))
+  }
+
   const store = {
     cartItems,
     addItem,
+    deleteItem
   };
 
   return (

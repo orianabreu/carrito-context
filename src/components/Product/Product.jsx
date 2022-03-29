@@ -7,7 +7,7 @@ const Product = ({ imgURL, name, price, retailtPrice, id, product }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/product-details/${id}`, { state: product });
+    navigate(`/product-details/${id}`, { state: { currentProduct: product } });
   };
 
   return (
@@ -21,11 +21,11 @@ const Product = ({ imgURL, name, price, retailtPrice, id, product }) => {
           <span>{retailtPrice}</span>
         </div>
 
-        {/* <Link to={`/product-details/${id}`}> */}
+       
         <button onClick={handleClick} className='product-container__btn'>
           view details
         </button>
-        {/* </Link> */}
+       
         <button
           className='product-container__btn'
           onClick={() => addItem(product)}

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { login } from "../../data/login";
-import Products from "../Products/Products";
 
-export default function LoginState() {
+export default function LoginState({ authenticate }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const navigate = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
@@ -17,20 +17,17 @@ export default function LoginState() {
 
     try {
         await login({ username, password });
-        setIsLoggedIn(true);
+        authenticate();
+        navigate("/products");
     } catch {
         setError("Incorrect username or password...");
+        setIsLoading(false);
+        setUsername("");
+        setPassword("");
     }
   }
 
   return (
-    <>
-    {isLoggedIn ? (
-      <>
-        <h1>Hola {username}</h1>
-        <Products />
-      </>
-    ) : (
       <form onSubmit={submit}>
         <input
           type='text'
@@ -42,12 +39,9 @@ export default function LoginState() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Link to="/products">
-          <button type="submit">{isLoading ? "Logging in..." : "login"}</button>
-        </Link>
+        <button type="submit">{isLoading ? "Logging in..." : "login"}</button>
+  
         {error && <p>{error}</p>}
     </form>
-    )}
-    </>
   );
 }
