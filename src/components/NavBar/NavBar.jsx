@@ -1,12 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+
+import * as S from "./NavBarStyles";
+import { useDarkContext } from '../../context/DarkContext';
 
 export default function NarBar() {
+  const { darkTheme, changeTheme } = useDarkContext();
+
   return (
-    <nav>
+    <S.Nav darkTheme={darkTheme}>
         <Link to="/shopping-cart">
-            <button>Go to cart</button>
+            <ShoppingCartIcon fontSize='large' color='primary'/>
         </Link>
-    </nav>
+
+       <DarkModeIcon fontSize='large' onClick={changeTheme}/>
+    </S.Nav>
   )
 }

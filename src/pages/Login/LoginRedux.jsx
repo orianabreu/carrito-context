@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../../data/login";
+//import { InputForm, Form } from "./LoginReduxStyles";
+import * as S from "./LoginReduxStyles";
 
 export default function LoginRedux({ authenticate }) {
 
@@ -25,8 +27,8 @@ export default function LoginRedux({ authenticate }) {
 
 
   return (
-    <form onSubmit={submit}>
-      <input
+    <S.Form onSubmit={submit}>
+      <S.InputForm
         type='text'
         value={username}
         //onChange={(e) => setUsername(e.target.value)}
@@ -38,7 +40,7 @@ export default function LoginRedux({ authenticate }) {
           })
         }
       />
-      <input
+      <S.InputForm
         type='password'
         value={password}
         //onChange={(e) => setPassword(e.target.value)}
@@ -50,10 +52,10 @@ export default function LoginRedux({ authenticate }) {
           })
         }
       />
-      <button type='submit'>
+      <S.LoginBtn type='submit' styleType="login">
         {isLoading ? "Logging in..." : "login"}
-      </button>
-      {error && <p>{error}</p>}
-    </form>
+      </S.LoginBtn>
+      {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
+    </S.Form>
   );
 }

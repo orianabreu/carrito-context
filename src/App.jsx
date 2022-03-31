@@ -5,8 +5,12 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
 
 import "./main.scss";
+import theme from "./theme/theme";
+import GlobalStyle from "./theme/global";
+import DarkProvider from "./context/DarkContext";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Products from "./pages/Products/Products";
 import CartProvider from "./context/CartContext";
@@ -34,43 +38,48 @@ function App() {
 
   return (
     <Router>
-      <CartProvider>
-        {auth && <NavBar />}
+      <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <DarkProvider>
+          <CartProvider>
+            {auth && <NavBar />}
 
-        <Routes>
-          {!auth && (
-            // <Route
-            //   path='auth'
-            //   element={<LoginState authenticate={authenticate} />}
-            // />
-            // <Route
-            //   path='auth'
-            //   element={<LoginReducer authenticate={authenticate} />}
-            // />
-            <Route
-              path='auth'
-              element={<LoginRedux authenticate={authenticate} />}
-            />
-          )}
+            <Routes>
+              {!auth && (
+                // <Route
+                //   path='auth'
+                //   element={<LoginState authenticate={authenticate} />}
+                // />
+                // <Route
+                //   path='auth'
+                //   element={<LoginReducer authenticate={authenticate} />}
+                // />
+                <Route
+                  path='auth'
+                  element={<LoginRedux authenticate={authenticate} />}
+                />
+              )}
 
-          {auth && (
-            <>
-              <Route path='products' element={<Products />} />
-              {/* comentar la ruta products para ver simulación de autenticación */}
+              {auth && (
+                <>
+                  <Route path='products' element={<Products />} />
+                  {/* comentar la ruta products para ver simulación de autenticación */}
+                  <Route
+                    path='product-details/:productId'
+                    element={<ProductDetails />}
+                  />
+                  <Route path='shopping-cart' element={<Cart />} />
+                </>
+              )}
+
               <Route
-                path='product-details/:productId'
-                element={<ProductDetails />}
+                path='*'
+                element={<Navigate to={auth ? "products" : "auth"} />}
               />
-              <Route path='shopping-cart' element={<Cart />} />
-            </>
-          )}
-
-          <Route
-            path='*'
-            element={<Navigate to={auth ? "products" : "auth"} />}
-          />
-        </Routes>
-      </CartProvider>
+            </Routes>
+          </CartProvider>
+        </DarkProvider>
+      </ThemeProvider>
     </Router>
   );
 }
